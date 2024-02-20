@@ -1,39 +1,31 @@
 'use strict';
 
-const modalTitle = document.querySelector('.modal-title');
-const modalForm = document.querySelector('.modal-form');
-const checkboxDiscount = document.querySelector('.modal-checkbox');
-const inputDiscount = document.querySelector('.modal__input_discount');
-
-const overlay = document.querySelector('.overlay');
-overlay.classList.remove('active'); // Remove active class
-
-const createRow = (object) => {
-    const row = document.createElement('tr');    
-    row.innerHTML = `
-    <td class="table__cell">${object.num}</td>
-    <td class="table__cell table__cell_left table__cell_name" data-id="${object.id}">
-       <span class="table__cell-id">id: ${object.id}</span>${object.title}
+const createRow = (row) => {
+    const tr = document.createElement('tr');    
+    tr.innerHTML = `
+    <td class="table__cell">${row.num}</td>
+    <td class="table__cell table__cell_left table__cell_name" data-id="${row.id}">
+       <span class="table__cell-id">id: ${row.id}</span>${row.title}
     </td>
-    <td class="table__cell table__cell_left">${object.category}</td>
-    <td class="table__cell">${object.unit}</td>
-    <td class="table__cell">${object.count}</td>
-    <td class="table__cell">${object.price}</td>
-    <td class="table__cell">${object.total}</td>
+    <td class="table__cell table__cell_left">${row.category}</td>
+    <td class="table__cell">${row.unit}</td>
+    <td class="table__cell">${row.count}</td>
+    <td class="table__cell">${row.price}</td>
+    <td class="table__cell">${row.total}</td>
     <td class="table__cell table__cell_btn-wrapper">
        <button class="table__btn table__btn_pic"></button>
        <button class="table__btn table__btn_edit"></button>
        <button class="table__btn table__btn_del"></button>
     </td> `;
     
-return row;
+return tr;
 }
 
-const renderGoods = (array) => {
+const renderGoods = (data) => {
     const table = document.querySelector('.table');
-    array.forEach(item => {
-    const row = createRow(item);
-    table.appendChild(row);
+    data.forEach(item => {
+    const tr = createRow(item);
+    table.appendChild(tr);
 });
 }
 
@@ -72,3 +64,21 @@ total: 49600
 ];
 
 renderGoods(goods);
+
+// === Modal window open/close ===
+
+const btnAddGoods = document.querySelector('.panel__add-goods');
+const overlay = document.querySelector('.overlay');
+const modalClose = document.querySelector('.modal__close');
+overlay.classList.remove('active');
+btnAddGoods.addEventListener('click', () => {
+    overlay.classList.add('active');
+  });  
+  modalClose.addEventListener('click', () => {
+    overlay.classList.remove('active');
+  });  
+ overlay.addEventListener('click', event => {
+    if (event.target.classList.contains('overlay')) {
+      overlay.classList.remove('active');
+    }
+  });

@@ -1,7 +1,9 @@
 'use strict';
 
 const createRow = (row) => {
-    const tr = document.createElement('tr');    
+  const tr = document.createElement('tr');
+  tr.classList.add('product');  
+
     tr.innerHTML = `
     <td class="table__cell">${row.num}</td>
     <td class="table__cell table__cell_left table__cell_name" data-id="${row.id}">
@@ -29,7 +31,6 @@ const renderGoods = (data) => {
 });
 }
 
-// Пример массива объектов
 const goods = [
 {
 num: 3,
@@ -81,4 +82,19 @@ btnAddGoods.addEventListener('click', () => {
     if (event.target.classList.contains('overlay')) {
       overlay.classList.remove('active');
     }
+ });  
+
+// При клике на кнопку удалить в таблице,
+// удалять строку из вёрстки и объект из базы данных
+// В консоль выводить базу данных после удаления поля
+const btnDelGoods = document.querySelectorAll('.table__btn_del');
+
+btnDelGoods.forEach(btn => {
+  btn.addEventListener('click', event => {
+    if (event.target.closest('tr')) {
+      event.target.closest('tr').remove();
+      goods.splice(0, 1);
+      console.log("🚀 ~ goods:", goods)
+    }      
   });
+});  
